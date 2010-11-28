@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "virtuoso"
   s.version     = Virtuoso::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.authors     = ["Mitchell Hashimoto"]
+  s.email       = ["mitchell.hashimoto@gmail.com"]
+  s.homepage    = "http://rubygems.org/gems/virtuoso"
+  s.summary     = "Dead simple virtual machine management via many hypervisors."
+  s.description = "Dead simple virtual machine management via many hypervisors."
 
   s.rubyforge_project = "virtuoso"
 
