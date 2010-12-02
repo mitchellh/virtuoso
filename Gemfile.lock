@@ -15,6 +15,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    bluecloth (2.0.9)
     ffi (0.6.3)
       rake (>= 0.8.7)
     mocha (0.9.10)
@@ -22,12 +23,15 @@ GEM
     nokogiri (1.4.4)
     protest (0.4.2)
     rake (0.8.7)
+    yard (0.6.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bluecloth (~> 2.0.9)
   libvirt!
   mocha (~> 0.9.8)
   protest (~> 0.4.0)
   virtuoso!
+  yard (~> 0.6.1)
