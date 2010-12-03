@@ -42,6 +42,12 @@ module Virtuoso
       # destroy any disk images, nor will it stop the VM if it is running.
       def destroy; end
 
+      # Starts the VM.
+      def start; end
+
+      # Stops the VM.
+      def stop; end
+
       # Reloads information from about a VM which exists. Since Virtuoso
       # can't enforce any sort of VM locking, it is possible a VM changes
       # in the background by some other process while it is being modified.

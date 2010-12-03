@@ -59,6 +59,16 @@ module Virtuoso
         @domain = nil
       end
 
+      def start
+        requires_existing_vm
+        domain.start
+      end
+
+      def stop
+        requires_existing_vm
+        domain.stop
+      end
+
       def reload
         # Load the main disk image path. We assume this is the first "disk"
         # device, though this assumption is probably pretty weak.
