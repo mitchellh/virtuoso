@@ -1,3 +1,5 @@
+require 'libvirt'
+
 module Virtuoso
   autoload :Driver, "virtuoso/driver"
   autoload :VirtualBox, "virtuoso/virtualbox"

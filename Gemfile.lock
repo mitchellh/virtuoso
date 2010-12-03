@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mitchellh/libvirt-rb.git
-  revision: 25175fff2c522a9657eaeb655fd11db455c52941
+  revision: 44a447857bbe8d47474465eae6cc9df86b64e3ba
   specs:
     libvirt (0.2.0.dev)
       ffi (~> 0.6.3)
