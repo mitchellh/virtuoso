@@ -2,6 +2,10 @@ module Virtuoso
   module VirtualBox
     # VirtualBox VM.
     class VM < API::VM
+      def state
+        domain ? domain.state : :new
+      end
+
       def save
         # Setup the basic settings for the VM
         d = Libvirt::Spec::Domain.new

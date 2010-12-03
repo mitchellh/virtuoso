@@ -25,7 +25,17 @@ module Virtuoso
         reload if domain
       end
 
-      # Saves the VM.
+      # Returns the current state of the VM. This is expected to always
+      # return the current, up-to-date state (therefore it is _not_ cached
+      # and updated only on {#reload}). The state is meant to be returned
+      # as a symbol.
+      #
+      # @return [Symbol]
+      def state; end
+
+      # Saves the VM. If the VM is new, this is expected to create it
+      # initially, otherwise this is expected to update the existing
+      # VM.
       def save; end
 
       # Destroys the VM, deleting any information about it. This will not
