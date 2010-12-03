@@ -8,6 +8,7 @@ module Virtuoso
   # the Virtuoso API.
   module API
     autoload :Hypervisor, "virtuoso/api/hypervisor"
+    autoload :VM, "virtuoso/api/vm"
   end
 
   # Connects to a hypervisor given by the URL to a libvirt instance,

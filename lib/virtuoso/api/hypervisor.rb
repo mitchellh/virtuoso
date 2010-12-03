@@ -12,6 +12,12 @@ module Virtuoso
       def initialize(connection)
         @connection = connection
       end
+
+      # Returns a new {VM} instance that can be used to create a new virtual
+      # machine.
+      #
+      # @return [VM]
+      def new_vm; end
     end
   end
 end
