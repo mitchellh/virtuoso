@@ -22,6 +22,12 @@ module Virtuoso
       def initialize(connection, domain=nil)
         @connection = connection
         @domain = domain
+
+        # Set reasonable defaults for fields if we can
+        @name = "My Virtuoso VM"
+        @memory = 524288 # 512 MB
+
+        # Load in the data from the domain if set
         reload if domain
       end
 
