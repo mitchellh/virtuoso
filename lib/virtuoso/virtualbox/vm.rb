@@ -6,8 +6,8 @@ module Virtuoso
         # Setup the basic settings for the VM
         d = Libvirt::Spec::Domain.new
         d.hypervisor = :vbox
-        d.name = "Test"
-        d.memory = 786432
+        d.name = name
+        d.memory = memory
         d.vcpu = 1
         d.features = [:acpi, :pae]
         d.clock.offset = :localtime
@@ -58,8 +58,13 @@ module Virtuoso
       def reload
         # Load the main disk image path. We assume this is the first "disk"
         # device, though this assumption is probably pretty weak.
-        disk = domain.spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
+        spec = domain.spec
+        disk = spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
         self.disk_image = disk.source
+
+        # Load the basic attributes
+        self.name = spec.name
+        self.memory = spec.memory
       end
     end
   end

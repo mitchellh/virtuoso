@@ -9,6 +9,12 @@ module Virtuoso
       # The libvirt domain object (for existing VMs).
       attr_reader :domain
 
+      # The name of the VM.
+      attr_accessor :name
+
+      # The memory for the VM.
+      attr_accessor :memory
+
       # The disk image to use as the main boot drive.
       attr_accessor :disk_image
 
