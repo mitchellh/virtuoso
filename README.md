@@ -7,6 +7,16 @@ focus of Virtuoso is to provide an extremely simple, common API for
 managing virtual machines at the cost of sacrificing some of libvirt's
 power.
 
+Currently supported hypervisors:
+
+  - VirtualBox
+
+Since Virtuoso is built on top of [libvirt](http://libvirt.org), it isn't
+too difficult to add support for another hypervisor. The reason a libvirt-supported
+hypervisor may not be supportd by Virtuoso at this time is most likely
+because I don't have experience using that hypervisor. Open an issue if
+you'd like to see support for another hypervisor.
+
 ## Installation
 
 The library is packaged as a gem:
@@ -36,6 +46,7 @@ usage is the same for all other hypervisors.
 
     # Create a new VM within the hypervisor and start it
     vm = hypervisor.new_vm
+    vm.name = "My Virtuoso VM"
     vm.disk_image = "/home/mitchellh/lucid.vmdk"
     vm.save
     vm.start
