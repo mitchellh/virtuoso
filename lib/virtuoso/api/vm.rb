@@ -13,9 +13,10 @@ module Virtuoso
       attr_accessor :disk_image
 
       # Initializes a VM with the given libvirt connection.
-      def initialize(connection)
+      def initialize(connection, domain=nil)
         @connection = connection
-        @domain = nil
+        @domain = domain
+        reload if domain
       end
 
       # Saves the VM.

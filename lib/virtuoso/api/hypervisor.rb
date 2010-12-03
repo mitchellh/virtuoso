@@ -18,6 +18,13 @@ module Virtuoso
       #
       # @return [VM]
       def new_vm; end
+
+      # Searches for a VM with the given ID and returns it if it finds it,
+      # and otherwise returns nil. The exact semantics of the find are up to
+      # the hypervisor but typically it searches by both name and UUID.
+      #
+      # @return [VM]
+      def find(id); end
     end
   end
 end

@@ -31,4 +31,34 @@ Protest.describe("API::VM") do
       }
     end
   end
+
+  context "initializing a VM" do
+    context "reloading" do
+      setup do
+        @impl = Class.new(@klass) do
+          def reload
+            throw :reloaded, true
+          end
+        end
+      end
+
+      should "reload if a domain is given" do
+        result = catch :reloaded do
+          @impl.new(test_connection, true)
+          nil
+        end
+
+        assert result
+      end
+
+      should "not reload if a domain is not given" do
+        result = catch :reloaded do
+          @impl.new(test_connection)
+          nil
+        end
+
+        assert !result
+      end
+    end
+  end
 end
