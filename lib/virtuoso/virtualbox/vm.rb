@@ -50,6 +50,7 @@ module Virtuoso
       end
 
       def destroy
+        requires_existing_vm
         @domain.undefine
         @domain = nil
       end

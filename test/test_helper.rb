@@ -15,6 +15,11 @@ class Protest::TestCase
   ensure
     mocha_teardown
   end
+
+  # Returns a connection to a libvirt test hypervisor
+  def test_connection
+    Libvirt.connect("test:///default")
+  end
 end
 
 Protest.report_with(:progress)

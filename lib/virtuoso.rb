@@ -1,7 +1,7 @@
 require 'libvirt'
 
 module Virtuoso
-  # The various supported hypervisors. Lazy loaded.
+  autoload :Error, "virtuoso/error"
   autoload :VirtualBox, "virtuoso/virtualbox"
 
   # Holds all the "abstract" classes for specifying and documenting

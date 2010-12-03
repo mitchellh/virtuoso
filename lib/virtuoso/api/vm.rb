@@ -15,6 +15,7 @@ module Virtuoso
       # Initializes a VM with the given libvirt connection.
       def initialize(connection)
         @connection = connection
+        @domain = nil
       end
 
       # Saves the VM.
@@ -35,6 +36,16 @@ module Virtuoso
       # careful, {#reload} may be called to reload the data associated
       # with this VM and bring it up to date.
       def reload; end
+
+      protected
+
+      # A helper method for subclasses to mark methods which require an
+      # existing VM to function (these are methods like `start` and `stop`).
+      # This method will raise an {Error::NewVMError} if an existing VM
+      # is not set.
+      def requires_existing_vm
+        raise Error::NewVMError if !domain
+      end
     end
   end
 end
