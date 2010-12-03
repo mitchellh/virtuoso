@@ -6,6 +6,9 @@ module Virtuoso
       # The libvirt connection instance.
       attr_reader :connection
 
+      # The libvirt domain object (for existing VMs).
+      attr_reader :domain
+
       # The disk image to use as the main boot drive.
       attr_accessor :disk_image
 
@@ -16,6 +19,22 @@ module Virtuoso
 
       # Saves the VM.
       def save; end
+
+      # Destroys the VM, deleting any information about it. This will not
+      # destroy any disk images, nor will it stop the VM if it is running.
+      def destroy; end
+
+      # Reloads information from about a VM which exists. Since Virtuoso
+      # can't enforce any sort of VM locking, it is possible a VM changes
+      # in the background by some other process while it is being modified.
+      # In that case, when you attempt to save, your changes will either
+      # overwrite the previous settings, or fail altogether (if someone else
+      # destroyed the VM, for example). It is up to the developer to be
+      # knowledgeable about his or her environment and account for this
+      # accordingly. If you know that a VM changed, or you're just being
+      # careful, {#reload} may be called to reload the data associated
+      # with this VM and bring it up to date.
+      def reload; end
     end
   end
 end

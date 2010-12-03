@@ -43,10 +43,15 @@ module Virtuoso
         d.devices << video
 
         # At this point, assuming the virtuoso settings are correct, we
-        # should have a bootable VM spec, so define it and start it.
-        # TODO: We need a connection
-        #puts d.to_xml
-        connection.domains.define(d)
+        # should have a bootable VM spec, so define it and reload the VM
+        # information.
+        @domain = connection.domains.define(d)
+        reload
+      end
+
+      def destroy
+        @domain.undefine
+        @domain = nil
       end
     end
   end
