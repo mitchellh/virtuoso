@@ -16,9 +16,14 @@ class Protest::TestCase
     mocha_teardown
   end
 
-  # Returns a connection to a libvirt test hypervisor
+  # Returns a connection to a libvirt test hypervisor.
   def test_connection
     Libvirt.connect("test:///default")
+  end
+
+  # Returns a domain object from the libvirt test hypervisor.
+  def test_domain
+    test_connection.domains.first
   end
 end
 
