@@ -32,6 +32,13 @@ using [homebrew](http://github.com/mxcl/homebrew):
 If you're on linux, your package manager should contain a compatible
 version of libvirt.
 
+## Project Status and Warning
+
+**Warning:** This project is extremely _alpha_. The API will most definitely
+change multiple times in the near future and the project itself will be
+a fast moving target. This status will be updated in time as the project
+matures.
+
 ## Usage
 
 Below is an example of starting a VM with VirtualBox. All drivers (for
