@@ -27,8 +27,8 @@ module Virtuoso
         @name = "My Virtuoso VM"
         @memory = 524288 # 512 MB
 
-        # Load in the data from the domain if set
-        reload if domain
+        # Load in the proper data
+        domain ? reload : reset
       end
 
       # Returns the libvirt domain specification for the current domain.

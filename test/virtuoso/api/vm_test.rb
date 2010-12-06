@@ -50,7 +50,11 @@ Protest.describe("API::VM") do
       setup do
         @impl = Class.new(@klass) do
           def reload
-            throw :reloaded, true
+            throw :reloaded, :reload
+          end
+
+          def reset
+            throw :reloaded, :reset
           end
         end
       end
@@ -61,16 +65,16 @@ Protest.describe("API::VM") do
           nil
         end
 
-        assert result
+        assert_equal :reload, result
       end
 
-      should "not reload if a domain is not given" do
+      should "reset if a domain is not given" do
         result = catch :reloaded do
           @impl.new(test_connection)
           nil
         end
 
-        assert !result
+        assert_equal :reset, result
       end
     end
   end
