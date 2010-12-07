@@ -57,3 +57,12 @@ usage is the same for all other hypervisors.
     vm.disk_image = "/home/mitchellh/lucid.vmdk"
     vm.save
     vm.start
+
+    # Watch it booting...
+    sleep 5
+
+    # Stop and destroy it
+    vm.stop
+    sleep 3
+    vm.destroy
+
