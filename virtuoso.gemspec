@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.authors     = ["Mitchell Hashimoto"]
   s.email       = ["mitchell.hashimoto@gmail.com"]
   s.homepage    = "http://rubygems.org/gems/virtuoso"
-  s.summary     = "Dead simple virtual machine management via many hypervisors."
-  s.description = "Dead simple virtual machine management via many hypervisors."
+  s.summary     = "Dead simple virtual machine management for many hypervisors."
+  s.description = "Dead simple virtual machine management for many hypervisors."
 
   s.rubyforge_project = "virtuoso"
 
-  s.add_dependency "libvirt", "~> 0.1"
+  s.add_dependency "libvirt", "~> 0.2"
 
   s.add_development_dependency "protest", "~> 0.4.0"
   s.add_development_dependency "mocha", "~> 0.9.8"

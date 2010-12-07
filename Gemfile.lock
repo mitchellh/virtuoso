@@ -1,16 +1,16 @@
 GIT
   remote: git://github.com/mitchellh/libvirt-rb.git
-  revision: 44a447857bbe8d47474465eae6cc9df86b64e3ba
+  revision: d06c4aef6e52723816b76b4e46b5f8cc985d5d8a
   specs:
-    libvirt (0.2.0.dev)
+    libvirt (0.2.1.dev)
       ffi (~> 0.6.3)
       nokogiri (~> 1.4.3)
 
 PATH
   remote: .
   specs:
-    virtuoso (0.0.1.dev)
-      libvirt (~> 0.1)
+    virtuoso (0.0.1)
+      libvirt (~> 0.2)
 
 GEM
   remote: http://rubygems.org/
