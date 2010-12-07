@@ -72,12 +72,13 @@ module Virtuoso
       def reload
         # Load the main disk image path. We assume this is the first "disk"
         # device, though this assumption is probably pretty weak.
-        disk = domain_spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
+        spec = domain.spec
+        disk = spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
         self.disk_image = disk.source
 
         # Load the basic attributes
-        self.name = domain_spec.name
-        self.memory = domain_spec.memory
+        self.name = spec.name
+        self.memory = spec.memory
       end
     end
   end
