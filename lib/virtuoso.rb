@@ -16,7 +16,7 @@ module Virtuoso
   def self.connect(url=nil)
     mapping = { "VBOX" => :VirtualBox }
     conn = Libvirt.connect(url)
-    # TODO: Handle connections which we don't support yet
+    raise Error::UnsupportedHypervisorError, "Unsupported hypervisor: #{conn.hypervisor}" if !mapping[conn.hypervisor]
     const_get(mapping[conn.hypervisor]).const_get(:Hypervisor).new(conn)
   end
 end

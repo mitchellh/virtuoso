@@ -3,6 +3,7 @@ module Virtuoso
   # exist in this module.
   module Error
     class VirtuosoError < StandardError; end
+    class UnsupportedHypervisorError < StandardError; end
     class NewVMError < VirtuosoError; end
   end
 end
