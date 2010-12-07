@@ -28,19 +28,7 @@ module Virtuoso
         @memory = 524288 # 512 MB
 
         # Load in the proper data
-        domain ? reload : reset
-      end
-
-      # Returns the libvirt domain specification for the current domain.
-      # If this VM represents an existing domain, then that spec will be
-      # returned, otherwise a new spec will be returned.
-      #
-      # For hypervisor implementers: The `set_domain` method will cause
-      # this spec to reset, please do not set `@domain` directly.
-      #
-      # @return [Libvirt::Spec::Domain]
-      def domain_spec
-        @domain_spec ||= domain ? domain.spec : Libvirt::Spec::Domain.new
+        reload if domain
       end
 
       # Returns the current state of the VM. This is expected to always
@@ -78,17 +66,6 @@ module Virtuoso
       # with this VM and bring it up to date.
       def reload; end
 
-      # Resets the spec for this VM. If this object represents a new VM,
-      # then the expected behavior is for this method to setup the spec
-      # object as if it is new. If this object represents an existing VM,
-      # then any changes to the spec should be discarded (since the last
-      # save).
-      def reset
-        # Default behavior is to just reset the spec, which will do
-        # the right thing most of the time.
-        @domain_spec = nil
-      end
-
       protected
 
       # A helper method for subclasses to mark methods which require an
@@ -106,7 +83,7 @@ module Virtuoso
         @domain = domain
         @domain_spec = nil
 
-        domain ? reload : reset
+        reload if domain
       end
     end
   end
