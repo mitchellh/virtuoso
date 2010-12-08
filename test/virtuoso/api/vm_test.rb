@@ -66,5 +66,14 @@ Protest.describe("API::VM") do
     setup do
       @instance = @klass.new(test_connection)
     end
+
+    should "return a new spec object for a new VM" do
+      assert_equal nil, @instance.spec.name
+    end
+
+    should "return the existing spec object for an existing VM" do
+      @instance = @klass.new(test_connection, test_domain)
+      assert_equal test_domain.spec.name, @instance.spec.name
+    end
   end
 end

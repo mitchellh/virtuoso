@@ -21,14 +21,22 @@ module Virtuoso
       # Initializes a VM with the given libvirt connection.
       def initialize(connection, domain=nil)
         @connection = connection
-        @domain = domain
 
         # Set reasonable defaults for fields if we can
         @name = "My Virtuoso VM"
         @memory = 524288 # 512 MB
 
         # Load in the proper data
-        reload if domain
+        set_domain(domain)
+      end
+
+      # Returns the domain spec representing this VM, along with any changes
+      # made to the VM (such as changing the name). This allows interaction
+      # on a lower level with libvirt.
+      #
+      # @return [Libvirt::Spec::Domain]
+      def spec
+        domain_spec
       end
 
       # Returns the current state of the VM. This is expected to always
@@ -84,6 +92,15 @@ module Virtuoso
         @domain_spec = nil
 
         reload if domain
+      end
+
+      # Returns the current domain's spec. This is expected to be used by
+      # {#spec} to setup any modifications. This value is cached until {#set_domain}
+      # is called.
+      #
+      # @return [Libvirt::Spec::Domain]
+      def domain_spec
+        @domain_spec ||= domain ? domain.spec : Libvirt::Spec::Domain.new
       end
     end
   end
