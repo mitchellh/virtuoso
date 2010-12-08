@@ -21,10 +21,19 @@ module Virtuoso
       end
 
       def save
+        # Get the spec, since if we undefine the domain later, we won't be
+        # able to.
+        definable = spec
+
+        # To modify an existing domain, we actually undefine and redefine it.
+        # We can't use `set_domain` here since that will clear the `domain`
+        # pointer, which we need to get the proper domain spec.
+        domain.undefine if domain
+
         # At this point, assuming the virtuoso settings are correct, we
         # should have a bootable VM spec, so define it and reload the VM
         # information.
-        set_domain(connection.domains.define(spec))
+        set_domain(connection.domains.define(definable))
       end
 
       def destroy
