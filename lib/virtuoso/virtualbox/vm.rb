@@ -13,6 +13,13 @@ module Virtuoso
         disk = d.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
         disk.source = disk_image
 
+        # If we're running headless, attach the RDP device
+        if options[:headless]
+          rdp = Libvirt::Spec::Device.get(:graphics).new
+          rdp.type = :rdp
+          d.devices << rdp
+        end
+
         d
       end
 
@@ -91,22 +98,6 @@ module Virtuoso
         nat.mac_address = "08:00:27:8f:7a:9f"
         nat.model_type = "82540EM"
         d.devices << nat
-
-        # Note: Below is the way to get a headless display.
-        #rdp = Libvirt::Spec::Device.get(:graphics).new
-        #rdp.type = :rdp
-        #d.devices << rdp
-
-        # Attach video information
-        video = Libvirt::Spec::Device.get(:video).new
-        model = Libvirt::Spec::Device::VideoModel.new
-        model.type = :vbox
-        model.vram = 12
-        model.heads = 1
-        model.accel3d = false
-        model.accel2d = false
-        video.models << model
-        d.devices << video
 
         d
       end
