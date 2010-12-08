@@ -49,14 +49,13 @@ module Virtuoso
         # At this point, assuming the virtuoso settings are correct, we
         # should have a bootable VM spec, so define it and reload the VM
         # information.
-        @domain = connection.domains.define(d)
-        reload
+        set_domain(connection.domains.define(d))
       end
 
       def destroy
         requires_existing_vm
-        @domain.undefine
-        @domain = nil
+        domain.undefine
+        set_domain(nil)
       end
 
       def start
