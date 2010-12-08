@@ -18,9 +18,13 @@ module Virtuoso
       # The disk image to use as the main boot drive.
       attr_accessor :disk_image
 
+      # The hash of options set for this VM.
+      attr_reader :options
+
       # Initializes a VM with the given libvirt connection.
       def initialize(connection, domain=nil)
         @connection = connection
+        @options = {}
 
         # Set reasonable defaults for fields if we can
         @name = "My Virtuoso VM"
@@ -28,6 +32,18 @@ module Virtuoso
 
         # Load in the proper data
         set_domain(domain)
+      end
+
+      # Sets potentially hypervisor-specific options to the VM. This allows
+      # for non-standard features like VirtualBox's headless mode to be supported
+      # in a way that still makes the API portable for other hypervisors.
+      # Please see a hypervisor's specific documentation to see what, if any,
+      # additional options they support through this method.
+      #
+      # @param [Symbol] key
+      # @param [Object] value
+      def set(key, value)
+        @options[key] = value
       end
 
       # Returns the domain spec representing this VM, along with any changes

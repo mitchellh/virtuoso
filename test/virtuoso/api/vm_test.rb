@@ -75,5 +75,14 @@ Protest.describe("API::VM") do
       @instance = @klass.new(test_connection, test_domain)
       assert_equal test_domain.spec.name, @instance.spec.name
     end
+
+    should "be have no options set to begin with" do
+      assert @instance.options.empty?
+    end
+
+    should "be able to set options" do
+      @instance.set(:headless, true)
+      assert @instance.options[:headless]
+    end
   end
 end
