@@ -34,6 +34,11 @@ module Virtuoso
       # made to the VM (such as changing the name). This allows interaction
       # on a lower level with libvirt.
       #
+      # This spec is not cached, therefore any changes made to it won't be
+      # reflected when {#save} is called. If you insist on using the spec
+      # in this way, you must modify the spec and call the appropriate libvirt
+      # library methods yourself.
+      #
       # @return [Libvirt::Spec::Domain]
       def spec
         domain_spec
@@ -89,7 +94,6 @@ module Virtuoso
       # most up to date information.
       def set_domain(domain)
         @domain = domain
-        @domain_spec = nil
 
         reload if domain
       end
@@ -100,7 +104,7 @@ module Virtuoso
       #
       # @return [Libvirt::Spec::Domain]
       def domain_spec
-        @domain_spec ||= domain ? domain.spec : Libvirt::Spec::Domain.new
+        domain ? domain.spec : Libvirt::Spec::Domain.new
       end
     end
   end
