@@ -92,6 +92,11 @@ module Virtuoso
         nat.model_type = "82540EM"
         d.devices << nat
 
+        # Note: Below is the way to get a headless display.
+        #rdp = Libvirt::Spec::Device.get(:graphics).new
+        #rdp.type = :rdp
+        #d.devices << rdp
+
         # Attach video information
         video = Libvirt::Spec::Device.get(:video).new
         model = Libvirt::Spec::Device::VideoModel.new
