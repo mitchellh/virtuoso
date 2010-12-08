@@ -104,7 +104,15 @@ module Virtuoso
       #
       # @return [Libvirt::Spec::Domain]
       def domain_spec
-        domain ? domain.spec : Libvirt::Spec::Domain.new
+        domain ? domain.spec : new_spec
+      end
+
+      # Returns a domain spec for a new VM. This should be overridden by any
+      # subclasses to customize what a new spec looks like.
+      #
+      # @return [Libvirt::Spec::Domain]
+      def new_spec
+        Libvirt::Spec::Domain.new
       end
     end
   end
