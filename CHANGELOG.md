@@ -8,6 +8,8 @@ Hypervisor Changes:
 
 General API changes:
 
+  - Modifying a VM doesn't actually promise to retain settings. It should
+    be treated as replacing a pre-existing VM. See docs for more info.
   - Added `VM#network` method to add/enable networks.
   - Added `VM#set` method to set arbitrary key/value options
     allowing for extensions to the API without breaking between

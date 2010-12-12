@@ -83,13 +83,17 @@ module Virtuoso
       def reload
         # Load the main disk image path. We assume this is the first "disk"
         # device, though this assumption is probably pretty weak.
-        spec = domain_spec
+        spec = domain.spec
         disk = spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
         self.disk_image = disk.source
 
         # Load the basic attributes
         self.name = spec.name
         self.memory = spec.memory
+
+        # Check to see if headless mode is enabled
+        headless = spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Graphics) && d.type == :rdp }
+        set(:headless, headless)
       end
 
       protected
