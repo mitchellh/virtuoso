@@ -3,9 +3,8 @@ module Virtuoso
     # VirtualBox VM.
     class VM < API::VM
       def initialize(*args)
-        super
-
         @networks = []
+        super
       end
 
       def network(type, options=nil)
@@ -94,6 +93,15 @@ module Virtuoso
         # Check to see if headless mode is enabled
         headless = spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Graphics) && d.type == :rdp }
         set(:headless, headless)
+
+        # Detect and load any networks
+        @networks = []
+        spec.devices.find_all { |d| d.is_a?(Libvirt::Spec::Device::Interface) }.each do |network|
+          if network.type == :user
+            # NAT
+            network(:nat, :model => network.model_type, :mac_address => network.mac_address)
+          end
+        end
       end
 
       protected
