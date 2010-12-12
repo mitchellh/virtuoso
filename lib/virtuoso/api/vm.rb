@@ -34,6 +34,12 @@ module Virtuoso
         set_domain(domain)
       end
 
+      # Attaches a network of the given type to the VM.
+      #
+      # @param [Symbol] type
+      # @param [Hash] options
+      def network(type, options=nil); end
+
       # Sets potentially hypervisor-specific options to the VM. This allows
       # for non-standard features like VirtualBox's headless mode to be supported
       # in a way that still makes the API portable for other hypervisors.

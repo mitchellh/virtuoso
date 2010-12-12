@@ -2,6 +2,18 @@ module Virtuoso
   module VirtualBox
     # VirtualBox VM.
     class VM < API::VM
+      def initialize(*args)
+        super
+
+        @networks = []
+      end
+
+      def network(type, options=nil)
+        raise Error::UnsupportedNetworkError if type != :nat
+
+        @networks << { :type => :nat, :model => "82540EM" }.merge(options || {})
+      end
+
       def spec
         # Basic settings
         d = domain_spec
@@ -12,6 +24,15 @@ module Virtuoso
         # assume the first disk section is the main one.
         disk = d.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
         disk.source = disk_image
+
+        # Networks
+        @networks.each do |network|
+          nat = Libvirt::Spec::Device.get(:interface).new
+          nat.type = :user
+          nat.mac_address = network[:mac_address] if network[:mac_address]
+          nat.model_type = network[:model]
+          d.devices << nat
+        end
 
         # If we're running headless, attach the RDP device
         if options[:headless]
@@ -91,13 +112,6 @@ module Virtuoso
         disk.target_dev = :hda
         disk.target_bus = :ide
         d.devices << disk
-
-        # Attach a basic NAT network interface
-        nat = Libvirt::Spec::Device.get(:interface).new
-        nat.type = :user
-        nat.mac_address = "08:00:27:8f:7a:9f"
-        nat.model_type = "82540EM"
-        d.devices << nat
 
         d
       end
