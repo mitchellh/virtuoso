@@ -2,7 +2,8 @@
 
 Hypervisor Changes:
 
-  - VirtualBox: Implemented `VM#network` for NAT networking.
+  - VirtualBox: Implemented `VM#network` for NAT and host only
+    networking.
   - VirtualBox: Headless support by setting option `:headless` to
     a truthy value.
 
