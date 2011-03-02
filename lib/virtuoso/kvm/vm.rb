@@ -48,6 +48,7 @@ module Virtuoso
             # Bridge
             network(:bridge, :model => network.model_type, :mac_address => network.mac_address,
                    :bridge => network.source_bridge)
+          end
         end
       end
 
