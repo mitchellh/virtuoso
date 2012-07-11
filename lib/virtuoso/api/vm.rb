@@ -63,7 +63,16 @@ module Virtuoso
       #
       # @return [Libvirt::Spec::Domain]
       def spec
-        domain_spec
+        d = domain_spec
+        d.name = name
+        d.memory = memory
+
+        # Setup the main hard drive. A disk section must always exist and we
+        # assume the first disk section is the main one.
+        disk = d.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
+        disk.source = disk_image
+
+        d
       end
 
       # Returns the current state of the VM. This is expected to always
@@ -72,22 +81,48 @@ module Virtuoso
       # as a symbol.
       #
       # @return [Symbol]
-      def state; end
+      def state
+        domain ? domain.state : :new
+      end
 
       # Saves the VM. If the VM is new, this is expected to create it
       # initially, otherwise this is expected to update the existing
       # VM.
-      def save; end
+      def save
+        # Get the spec, since if we undefine the domain later, we won't be
+        # able to.
+        definable = spec
+
+        # To modify an existing domain, we actually undefine and redefine it.
+        # We can't use `set_domain` here since that will clear the `domain`
+        # pointer, which we need to get the proper domain spec.
+        domain.undefine if domain
+
+        # At this point, assuming the virtuoso settings are correct, we
+        # should have a bootable VM spec, so define it and reload the VM
+        # information.
+        set_domain(connection.domains.define(definable))
+      end
 
       # Destroys the VM, deleting any information about it. This will not
       # destroy any disk images, nor will it stop the VM if it is running.
-      def destroy; end
+      def destroy
+        requires_existing_vm
+        domain.undefine
+        set_domain(nil)
+      end
 
       # Starts the VM.
-      def start; end
+      def start
+        requires_existing_vm
+        domain.start
+      end
 
       # Stops the VM.
-      def stop; end
+      def stop
+        requires_existing_vm
+        domain.stop
+      end
 
       # Reloads information from about a VM which exists. Since Virtuoso
       # can't enforce any sort of VM locking, it is possible a VM changes
@@ -99,7 +134,19 @@ module Virtuoso
       # accordingly. If you know that a VM changed, or you're just being
       # careful, {#reload} may be called to reload the data associated
       # with this VM and bring it up to date.
-      def reload; end
+      def reload
+        # Load the main disk image path. We assume this is the first "disk"
+        # device, though this assumption is probably pretty weak.
+        spec = domain.spec
+        disk = spec.devices.find { |d| d.is_a?(Libvirt::Spec::Device::Disk) }
+        self.disk_image = disk.source
+
+        # Load the basic attributes
+        self.name = spec.name
+        self.memory = spec.memory
+
+        spec
+      end
 
       protected
 
@@ -135,6 +182,19 @@ module Virtuoso
       # @return [Libvirt::Spec::Domain]
       def new_spec
         Libvirt::Spec::Domain.new
+      end
+
+      # Returns a template for a IDE device. This can be taken as main hard
+      # disk.
+      #
+      # @return [Libvirt::Spec::Device]
+      def new_disk_ide
+        Libvirt::Spec::Device.get(:disk).new.tap do |disk|
+          disk.type = :file
+          disk.device = :disk
+          disk.target_dev = :hda
+          disk.target_bus = :ide
+        end
       end
     end
   end
